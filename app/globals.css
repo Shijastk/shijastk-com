@@ -1,26 +1,151 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+  Class-based dark mode (next-themes uses attribute="class").
+  Tailwind v4 defaults to prefers-color-scheme, so we override it here.
+*/
+@custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/*
+  Design tokens ported from victoreke.com's tailwind.config.js into the
+  Tailwind v4 CSS-first theme. These generate utilities like
+  `text-primary-color`, `bg-primary-bg`, `font-incognito`, `shadow-line-dark`.
+*/
+@theme {
+  --color-primary-color: #33e092;
+  --color-secondary-color: #0cce6b;
+  --color-tertiary-color: #16a34a;
+  --color-primary-bg: rgba(39, 39, 43, 0.4);
+  --color-secondary-bg: rgba(250, 250, 250, 0.4);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-incognito: var(--incognito), "Inter", sans-serif;
+  --font-inter: var(--inter), sans-serif;
+  --font-gitlabmono: var(--gitlabmono), monospace;
+
+  --shadow-line-light: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+  --shadow-line-dark: rgb(29, 29, 32) 0px 1px 0px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-image: url("/noise.png");
+  background-size: 200px 200px;
+  background-position: 0 0;
+}
+
+/*
+  Lenis smooth scroll (see components/site/SmoothScroll.tsx). These are the
+  library's recommended base styles. Native scroll-behavior is intentionally
+  NOT set here — Lenis owns scrolling and the two conflict.
+*/
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/*
+  Custom cursor (see components/site/Cursor.tsx). The component adds
+  `has-cursor` to <body> only on fine-pointer devices without reduced motion,
+  so touch users always keep the native cursor.
+*/
+body.has-cursor,
+body.has-cursor a,
+body.has-cursor button,
+body.has-cursor [role="button"] {
+  cursor: none;
+}
+/* Keep the native text caret where typing/selection matters. */
+body.has-cursor input,
+body.has-cursor textarea,
+body.has-cursor select,
+body.has-cursor [contenteditable="true"] {
+  cursor: auto;
+}
+
+/* Reduced-motion safety net for any CSS-only animations/transitions. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--incognito), "Inter", sans-serif;
+}
+
+/* Hero SVG animated stroke */
+.path {
+  stroke-dasharray: 500px 100px;
+  animation: animate 100s linear infinite alternate-reverse;
+}
+
+@keyframes animate {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 12433.8193359375;
+  }
+}
+
+/* Markdown (react-markdown) content styling — replaces Sanity PortableText */
+.prose-content {
+  line-height: 1.75;
+}
+.prose-content p {
+  margin-bottom: 1rem;
+}
+.prose-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 1.75rem 0 0.75rem;
+  letter-spacing: -0.025em;
+}
+.prose-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+}
+.prose-content ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+.prose-content ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+.prose-content li {
+  margin-bottom: 0.375rem;
+}
+.prose-content a {
+  color: var(--color-tertiary-color);
+  text-decoration: underline;
+}
+.prose-content code {
+  font-family: var(--gitlabmono), monospace;
+  font-size: 0.875em;
+}
+.prose-content strong {
+  font-weight: 600;
 }
