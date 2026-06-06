@@ -1,0 +1,1 @@
+ALTER TABLE "site_settings" ADD COLUMN "works_layout" text DEFAULT 'grid' NOT NULL;
