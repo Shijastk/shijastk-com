@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     description: siteConfig.description,
   },
   alternates: { canonical: siteConfig.url },
+  verification: {
+    google: "2Wx1s57k7vxl0QZHa012N3cwf2E2F3BeKXreBXlOPQ8",
+  },
 };
 
 export default function RootLayout({
