@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${project.name} | Project`,
     description: project.tagline ?? undefined,
+    alternates: { canonical: `/projects/${slug}` },
     openGraph: {
       title: project.name,
       description: project.tagline ?? undefined,
@@ -83,7 +84,11 @@ export default async function ProjectDetail({ params }: Props) {
                 className="rounded-xl border dark:border-zinc-800 border-zinc-100 object-cover"
                 fill
                 src={project.coverImageUrl}
-                alt={project.name}
+                alt={
+                  project.tagline
+                    ? `${project.name} — ${project.tagline}`
+                    : `${project.name} — project by Shijas T K`
+                }
                 quality={100}
               />
             </div>

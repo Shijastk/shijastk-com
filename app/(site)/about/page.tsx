@@ -23,6 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: seo?.title,
     description: seo?.description,
     keywords: seo?.keywords,
+    alternates: { canonical: "/about" },
   };
 }
 
@@ -65,7 +66,8 @@ export default async function About() {
                   width={400}
                   height={400}
                   quality={100}
-                  alt={hero.fullName}
+                  alt={`${hero.fullName} — Frontend Developer (React, Next.js & TypeScript)`}
+                  title={`${hero.fullName} — Frontend Developer`}
                   priority
                 />
               ) : (

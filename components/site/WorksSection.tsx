@@ -86,7 +86,11 @@ function Cover({ project, className }: { project: Project; className?: string })
       {src ? (
         <Image
           src={src}
-          alt={project.name}
+          alt={
+            project.tagline
+              ? `${project.name} — ${project.tagline}`
+              : `${project.name} — project by Shijas T K`
+          }
           fill
           quality={100}
           className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
